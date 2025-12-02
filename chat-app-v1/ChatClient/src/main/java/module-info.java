@@ -1,0 +1,21 @@
+module com.chatapp.client {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires javafx.media;
+    requires javafx.web;
+    requires javafx.swing;
+    requires com.google.gson;
+    requires org.slf4j;
+    requires emoji.java;
+    requires webcam.capture;
+    requires java.desktop;
+    requires java.sql;
+
+    opens com.chatapp.client to javafx.fxml;
+    opens com.chatapp.client.controller to javafx.fxml;
+    opens com.chatapp.client.model to com.google.gson;
+
+    exports com.chatapp.client;
+    exports com.chatapp.client.controller;
+    exports com.chatapp.client.model;
+}

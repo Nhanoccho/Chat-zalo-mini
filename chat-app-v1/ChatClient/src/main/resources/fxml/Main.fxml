@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/19"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.chatapp.client.controller.MainController"
+           prefHeight="700.0" prefWidth="1200.0"
+           style="-fx-background-color: #f0f2f5;">
+
+    <!-- Main Content: SplitPane (Conversations + Chat) -->
+    <center>
+        <SplitPane fx:id="mainSplitPane" dividerPositions="0.3">
+
+            <!-- LEFT PANEL: Conversations List -->
+            <VBox spacing="0" style="-fx-background-color: white; -fx-border-color: #e4e6eb; -fx-border-width: 0 1 0 0;">
+
+                <!-- Header with User Profile -->
+                <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: white; -fx-padding: 15; -fx-border-color: #e4e6eb; -fx-border-width: 0 0 1 0;">
+                    <!-- User Avatar Icon -->
+                    <Label text="👤" style="-fx-font-size: 32; -fx-text-fill: #1877f2;" />
+
+                    <!-- User Info -->
+                    <VBox spacing="2" HBox.hgrow="ALWAYS">
+                        <Label fx:id="userNameLabel" text="User Name" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+                        <HBox spacing="5" alignment="CENTER_LEFT">
+                            <Label text="●" fx:id="statusDot" style="-fx-text-fill: #2ecc71; -fx-font-size: 10;" />
+                            <Label fx:id="userStatusLabel" text="ONLINE" style="-fx-text-fill: #2ecc71; -fx-font-size: 11;" />
+                        </HBox>
+                    </VBox>
+
+                    <!-- Status ComboBox -->
+                    <ComboBox fx:id="statusComboBox" prefWidth="100" />
+
+                    <!-- Refresh Status Button -->
+                    <Button fx:id="refreshStatusButton" text="🔄" onAction="#handleRefreshStatus"
+                           style="-fx-background-color: transparent; -fx-font-size: 16; -fx-cursor: hand;">
+                        <tooltip>
+                            <Tooltip text="Refresh Status" />
+                        </tooltip>
+                    </Button>
+                </HBox>
+
+                <!-- Search Section -->
+                <HBox spacing="5" style="-fx-padding: 10; -fx-background-color: #f0f2f5;">
+                    <TextField fx:id="searchField" promptText="🔍 Search users..." HBox.hgrow="ALWAYS"
+                              style="-fx-background-radius: 20; -fx-padding: 8;" />
+                    <Button fx:id="searchButton" text="Search" onAction="#handleSearch"
+                           style="-fx-background-color: #1877f2; -fx-text-fill: white; -fx-background-radius: 20; -fx-padding: 8 16;" />
+                </HBox>
+
+                <!-- Action Buttons -->
+                <HBox spacing="10" style="-fx-padding: 10; -fx-background-color: white; -fx-border-color: #e4e6eb; -fx-border-width: 0 0 1 0;">
+                    <Button text="➕ Create Group" onAction="#handleCreateGroup" HBox.hgrow="ALWAYS"
+                           style="-fx-background-color: #42b72a; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 12;" />
+                    <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout"
+                           style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 12;" />
+                </HBox>
+
+                <!-- Tabs for Friends/Groups -->
+                <TabPane fx:id="conversationsTabPane" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS"
+                        style="-fx-background-color: white;">
+
+                    <!-- Friends Tab -->
+                    <Tab text="💬 Friends">
+                        <VBox spacing="0">
+                            <HBox alignment="CENTER_RIGHT" spacing="5" style="-fx-padding: 5; -fx-background-color: #f0f2f5;">
+                                <Button fx:id="refreshFriendsButton" text="🔄 Refresh Friends" onAction="#handleRefreshFriends"
+                                       style="-fx-background-color: #1877f2; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11; -fx-padding: 5 10; -fx-cursor: hand;" />
+                            </HBox>
+                            <ListView fx:id="friendListView" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-width: 0;" />
+                        </VBox>
+                    </Tab>
+
+                    <!-- Groups Tab -->
+                    <Tab text="👥 Groups">
+                        <VBox spacing="0">
+                            <HBox alignment="CENTER_RIGHT" spacing="5" style="-fx-padding: 5; -fx-background-color: #f0f2f5;">
+                                <Button fx:id="refreshGroupsButton" text="🔄 Refresh Groups" onAction="#handleRefreshGroups"
+                                       style="-fx-background-color: #1877f2; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-size: 11; -fx-padding: 5 10; -fx-cursor: hand;" />
+                            </HBox>
+                            <ListView fx:id="groupListView" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-border-width: 0;" />
+                        </VBox>
+                    </Tab>
+                </TabPane>
+            </VBox>
+
+            <!-- RIGHT PANEL: Chat Area -->
+            <StackPane fx:id="chatContainer" style="-fx-background-color: white;">
+
+                <!-- Welcome Screen (shown when no chat selected) -->
+                <VBox fx:id="welcomeScreen" alignment="CENTER" spacing="20" style="-fx-background-color: white;">
+                    <Label text="💬" style="-fx-font-size: 80;" />
+                    <Label text="Select a conversation to start chatting"
+                          style="-fx-font-size: 18; -fx-text-fill: #65676b; -fx-font-weight: bold;" />
+                    <Label text="Choose from your friends or groups on the left"
+                          style="-fx-font-size: 14; -fx-text-fill: #8a8d91;" />
+                </VBox>
+
+                <!-- Chat Content Area (dynamically loaded) -->
+                <BorderPane fx:id="chatArea" visible="false" managed="false" />
+            </StackPane>
+        </SplitPane>
+    </center>
+</BorderPane>
